@@ -36,7 +36,8 @@ public class AuthController {
         } catch (Exception ex) {
             throw new Exception("invalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUsername());
+        User user = userRepository.findByUsername(authRequest.getUsername());
+        return jwtUtil.generateToken(authRequest.getUsername(), user.getId());
     }
 
     @PostMapping("/register")

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import TaskPage from './components/TaskPage';
@@ -11,13 +11,13 @@ function App() {
   return (
     <Router>
       <Notification />
-      <Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegistrationPage} />
-        <PrivateRoute path="/tasks" component={TaskPage} />
-        <PrivateRoute path="/analytics" component={AnalyticsPage} />
-        <Redirect from="/" to="/tasks" />
-      </Switch>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/tasks" element={<PrivateRoute><TaskPage /></PrivateRoute>} />
+        <Route path="/analytics" element={<PrivateRoute><AnalyticsPage /></PrivateRoute>} />
+        <Route path="/" element={<Navigate to="/tasks" />} />
+      </Routes>
     </Router>
   );
 }

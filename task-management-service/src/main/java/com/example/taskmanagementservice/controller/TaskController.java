@@ -19,6 +19,11 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+    @GetMapping("/unfinished")
+    public List<Long> getUsersWithUnfinishedTasks() {
+        return taskService.getUsersWithUnfinishedTasks();
+    }
+
     @GetMapping("/{userId}")
     public List<Task> getTasksByUserId(@PathVariable Long userId) {
         return taskService.getTasksByUserId(userId);
