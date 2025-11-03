@@ -20,9 +20,14 @@ public class ScheduledTask {
     public void sendReminder() {
         webClientBuilder.build()
                 .get()
-                .uri("http://task-management-service/tasks")
+                .uri("http://task-management-service/tasks/unfinished")
                 .retrieve()
-                .bodyToFlux(Task.class)
+                .bodyToFlux(Long.class)
+                .flatMap(userId -> webClientBuilder.build()
+                        .get()
+                        .uri("http://task-management-service/tasks/" + userId)
+                        .retrieve()
+                        .bodyToFlux(Task.class))
                 .filter(task -> !task.isCompleted())
                 .subscribe(task -> {
                     String message = "Don't forget to complete your task: " + task.getDescription();
